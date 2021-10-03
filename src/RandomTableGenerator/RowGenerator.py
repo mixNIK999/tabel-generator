@@ -31,10 +31,10 @@ class RowGenerator:
             val = ColumnType.gen_random_value(cl_type)
         return val
 
-    def mark_all_under_condition(self, table: pd.DataFrame) -> pd.DataFrame:
-        mask = pd.DataFrame({"": [True] * table.shape[0]})
-        for cl_name, cl_const in self.column_constants:
-            mask |= table[cl_name] == cl_const
+    def fits(self, table: pd.DataFrame) -> pd.Series:
+        mask = pd.Series([True] * table.shape[0])
+        for cl_name, cl_const in self.column_constants.items():
+            mask &= table[cl_name] == cl_const
         return mask
 
     def generate_row(self) -> List[Union[int, str]]:

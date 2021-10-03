@@ -40,11 +40,12 @@ def create_parser():
 def main(args):
     random.seed(args.seed)
     table_info = TableInfo.create_by_list(args.columns_info)
-    table = generate_table(table_info, Condition(args.conditions), 1000, 0.2,
-                           args.seed)
+    table, mask = generate_table(table_info, Condition(args.conditions), 1000, 0.2,
+                                 args.seed)
 
     table_info.hex_columns(table)
     table.to_csv(args.file, index=False)
+    table[mask].to_csv(f"{args.file}.ans", index=False)
 
 
 if __name__ == '__main__':
